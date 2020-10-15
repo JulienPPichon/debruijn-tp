@@ -34,46 +34,59 @@ __email__ = "your@email.fr"
 __status__ = "Developpement"
 
 def isfile(path):
-    """Check if path is an existing file.
-      :Parameters:
-          path: Path to the file
-    """
-    if not os.path.isfile(path):
-        if os.path.isdir(path):
-            msg = "{0} is a directory".format(path)
-        else:
-            msg = "{0} does not exist.".format(path)
-        raise argparse.ArgumentTypeError(msg)
-    return path
+	"""Check if path is an existing file.
+		:Parameters:
+		path: Path to the file
+	"""
+	if not os.path.isfile(path):
+		if os.path.isdir(path):
+			msg = "{0} is a directory".format(path)
+		else:
+			msg = "{0} does not exist.".format(path)
+		raise argparse.ArgumentTypeError(msg)
+	return path
 
 
 def get_arguments():
-    """Retrieves the arguments of the program.
-      Returns: An object that contains the arguments
-    """
-    # Parsing arguments
-    parser = argparse.ArgumentParser(description=__doc__, usage=
-                                     "{0} -h"
-                                     .format(sys.argv[0]))
-    parser.add_argument('-i', dest='fastq_file', type=isfile,
-                        required=True, help="Fastq file")
-    parser.add_argument('-k', dest='kmer_size', type=int,
-                        default=21, help="K-mer size (default 21)")
-    parser.add_argument('-o', dest='output_file', type=str,
-                        default=os.curdir + os.sep + "contigs.fasta",
-                        help="Output contigs in fasta file")
-    return parser.parse_args()
+	"""Retrieves the arguments of the program.
+		Returns: An object that contains the arguments
+	"""
+	# Parsing arguments
+	parser = argparse.ArgumentParser(description=__doc__, usage=
+									"{0} -h"
+									.format(sys.argv[0]))
+	parser.add_argument('-i', dest='fastq_file', type=isfile,
+						required=True, help="Fastq file")
+	parser.add_argument('-k', dest='kmer_size', type=int,
+						default=21, help="K-mer size (default 21)")
+	parser.add_argument('-o', dest='output_file', type=str,
+						default=os.curdir + os.sep + "contigs.fasta",
+						help="Output contigs in fasta file")
+	return parser.parse_args()
+
+
+def read_fastq(fastq_file):
+	with open(fastq_file, "r") as filin:
+		for line in filin:			
+			yield next(filin).strip()
+			next(filin)
+			next(filin)
+			
+
+#def cut_kmer
+
 
 
 #==============================================================
 # Main program
 #==============================================================
 def main():
-    """
-    Main program function
-    """
-    # Get arguments
-    args = get_arguments()
-
+	"""
+	Main program function
+	"""
+	# Get arguments
+	args = get_arguments()
+	read_fastq(args.fastq_file)
+    
 if __name__ == '__main__':
-    main()
+	main()
