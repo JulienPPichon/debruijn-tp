@@ -73,7 +73,9 @@ def read_fastq(fastq_file):
 			next(filin)
 			
 
-#def cut_kmer
+def cut_kmer(seq, k):
+	for i in range(len(seq) - k + 1):
+		yield seq[i:i+k]
 
 
 
