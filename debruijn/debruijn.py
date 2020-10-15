@@ -78,6 +78,15 @@ def cut_kmer(seq, k):
 		yield seq[i:i+k]
 
 
+def build_kmer_dict(fastq_file, k):
+	kmer_dict = {}
+	for seq in read_fastq(fastq_file):
+		for kmer in cut_kmer(seq, k):
+			if kmer not in kmer_dict:
+				kmer_dict[kmer] = 1
+			else:
+				kmer_dict[kmer] += 1
+	return kmer_dict
 
 #==============================================================
 # Main program
@@ -88,7 +97,8 @@ def main():
 	"""
 	# Get arguments
 	args = get_arguments()
-	read_fastq(args.fastq_file)
+	kmer_dict = build_kmer_dict(args.fastq_file, args.kmer_size)
+	
     
 if __name__ == '__main__':
 	main()
