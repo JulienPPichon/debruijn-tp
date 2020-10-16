@@ -122,6 +122,17 @@ def get_contigs(kmer_tree, starting_nodes, sink_nodes):
 					contig = contig + kmer[-1]
 				all_contigs.append((contig, len(contig)))
 	return all_contigs
+	
+	
+def fill(text, width=80):
+	"""Split text with a line return to respect fasta format"""
+	return (os.linesep.join(text[i:i+width] for i in range(0, len(text), width)))
+	
+	
+def save_contigs(contigs, fasta):
+	with open("../data/" + fasta, "w") as filout:
+		for number, contig in enumerate(contigs):
+			filout.write(">contig_" +  str(number + 1) + " len=" + str(contig[1]) + "\n" + str(fill(contig[0])) + "\n")
 		
 		
 #==============================================================
@@ -137,7 +148,8 @@ def main():
 	kmer_tree = build_graph(kmer_dict)
 	starting_nodes = get_starting_nodes(kmer_tree)
 	sink_nodes = get_sink_nodes(kmer_tree)
-	get_contigs(kmer_tree, starting_nodes, sink_nodes)
+	all_contigs = get_contigs(kmer_tree, starting_nodes, sink_nodes)
+	save_contigs(all_contigs, args.output_file)
 
 
 if __name__ == '__main__':
