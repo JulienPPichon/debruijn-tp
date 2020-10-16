@@ -149,6 +149,15 @@ def path_average_weight(kmer_tree, path):
 	
 
 def remove_paths(kmer_tree, path_list, delete_entry_node, delete_sink_node):
+	entry = 1
+	sink = -1
+	if delete_entry_node == True:
+		entry = 0
+	if delete_sink_node == True:
+		sink = None
+	for path in path_list:
+		kmer_tree.remove_nodes_from(path[entry:sink]) 
+    return kmer_tree
 
 	
 		
