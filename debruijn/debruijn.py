@@ -96,7 +96,20 @@ def build_graph(kmer_dict):
 	return kmer_tree
 		
 
+def get_starting_nodes(kmer_tree):
+	starting_nodes = []
+	for node in kmer_tree.nodes:
+		if len(list(kmer_tree.predecessors(node))) == 0:
+			starting_nodes.append(node)
+	return starting_nodes
 
+
+def get_sink_nodes(kmer_tree):
+	sink_nodes = []
+	for node in kmer_tree.nodes:
+		if len(list(kmer_tree.successors(node))) == 0:
+			sink_nodes.append(node)
+	return sink_nodes
 
 #==============================================================
 # Main program
