@@ -133,6 +133,20 @@ def save_contigs(contigs, fasta):
 	with open("../data/" + fasta, "w") as filout:
 		for number, contig in enumerate(contigs):
 			filout.write(">contig_" +  str(number + 1) + " len=" + str(contig[1]) + "\n" + str(fill(contig[0])) + "\n")
+			
+
+def std(value_list):
+	std = statistics.stdev(value_list)
+	return std
+	
+	
+def path_average_weight(kmer_tree, path):
+	total_weight = 0
+	for kmer in path:
+		total_weight += kmer_tree.out_degree(kmer, weight = "weight")
+	print(total_weight)
+	
+
 		
 		
 #==============================================================
@@ -149,7 +163,7 @@ def main():
 	starting_nodes = get_starting_nodes(kmer_tree)
 	sink_nodes = get_sink_nodes(kmer_tree)
 	all_contigs = get_contigs(kmer_tree, starting_nodes, sink_nodes)
-	save_contigs(all_contigs, args.output_file)
+	save_contigs(all_contigs, args.output_file) 
 
 
 if __name__ == '__main__':
