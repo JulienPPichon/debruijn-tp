@@ -144,7 +144,7 @@ def path_average_weight(kmer_tree, path):
 	total_weight = 0
 	for kmer in path:
 		total_weight += kmer_tree.out_degree(kmer, weight = "weight")
-	average_weight = total_weight / len(path)
+	average_weight = total_weight / (len(path) - 1)
 	return average_weight
 	
 
