@@ -13,15 +13,15 @@
 
 """Perform assembly based on debruijn graph."""
 
+from operator import itemgetter
+from random import randint
 import argparse
 import os
 import sys
 import networkx as nx
 import matplotlib
-from operator import itemgetter
 import random
 random.seed(9001)
-from random import randint
 import statistics
 
 __author__ = "Your Name"
@@ -88,6 +88,16 @@ def build_kmer_dict(fastq_file, k):
 				kmer_dict[kmer] += 1
 	return kmer_dict
 
+
+def build_graph(kmer_dict):
+	kmer_tree = nx.DiGraph()
+	for kmer in kmer_dict:
+		kmer_tree.add_edge(kmer[0:len(kmer) - 1], kmer[1:len(kmer)], weight = kmer_dict[kmer])
+	return kmer_tree
+		
+
+
+
 #==============================================================
 # Main program
 #==============================================================
@@ -98,6 +108,7 @@ def main():
 	# Get arguments
 	args = get_arguments()
 	kmer_dict = build_kmer_dict(args.fastq_file, args.kmer_size)
+	kmer_graph = build_graph(kmer_dict)
 	
     
 if __name__ == '__main__':
