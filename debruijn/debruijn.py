@@ -144,10 +144,13 @@ def path_average_weight(kmer_tree, path):
 	total_weight = 0
 	for kmer in path:
 		total_weight += kmer_tree.out_degree(kmer, weight = "weight")
-	print(total_weight)
+	average_weight = total_weight / len(path)
+	return average_weight
 	
 
-		
+def remove_paths(kmer_tree, path_list, delete_entry_node, delete_sink_node):
+
+	
 		
 #==============================================================
 # Main program
