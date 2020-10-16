@@ -110,7 +110,20 @@ def get_sink_nodes(kmer_tree):
 		if len(list(kmer_tree.successors(node))) == 0:
 			sink_nodes.append(node)
 	return sink_nodes
+	
 
+def get_contigs(kmer_tree, starting_nodes, sink_nodes):
+	all_contigs = []
+	for input_node in starting_nodes:
+		for output_node in sink_nodes:
+			for path in nx.all_simple_paths(kmer_tree, input_node, output_node):
+				contig = path[0]
+				for kmer in path[1:]:
+					contig = contig + kmer[-1]
+				all_contigs.append((contig, len(contig)))
+	return all_contigs
+		
+		
 #==============================================================
 # Main program
 #==============================================================
@@ -121,8 +134,11 @@ def main():
 	# Get arguments
 	args = get_arguments()
 	kmer_dict = build_kmer_dict(args.fastq_file, args.kmer_size)
-	kmer_graph = build_graph(kmer_dict)
-	
-    
+	kmer_tree = build_graph(kmer_dict)
+	starting_nodes = get_starting_nodes(kmer_tree)
+	sink_nodes = get_sink_nodes(kmer_tree)
+	get_contigs(kmer_tree, starting_nodes, sink_nodes)
+
+
 if __name__ == '__main__':
 	main()
