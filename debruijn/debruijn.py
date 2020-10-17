@@ -130,7 +130,7 @@ def fill(text, width=80):
 	
 	
 def save_contigs(contigs, fasta):
-	with open("../data/" + fasta, "w") as filout:
+	with open("../results/" + fasta, "w") as filout:
 		for number, contig in enumerate(contigs):
 			filout.write(">contig_" +  str(number + 1) + " len=" + str(contig[1]) + "\n" + str(fill(contig[0])) + "\n")
 			
@@ -157,7 +157,28 @@ def remove_paths(kmer_tree, path_list, delete_entry_node, delete_sink_node):
 		sink = None
 	for path in path_list:
 		kmer_tree.remove_nodes_from(path[entry:sink]) 
-    return kmer_tree
+	return kmer_tree
+    
+    
+def select_best_path(kmer_tree, path_list, length_list, weight_list, delete_entry_node = False, delete_sink_node = False)
+	max_weight = 0
+	best_path_len = 0
+	best_path_index = -1
+	for list_index, weight in enumerate(weight_list):
+		if weight > max_weight:
+			max_weight = weight
+			best_path_len = length_list[list_index]
+			best_path_index = list_index
+		elif weight == max_weight:
+			if best_path_len < length_list[list_index]  
+				best_path_len = length_list[list_index]
+				best_path_index = list_index
+			elif best_path_len == length_list[list_index]:
+				best_path_index = rd.choice([best_path_index, list_index])
+	if best_path_index = -1:
+		best_path_index = rd.randint(0, len(path_list))
+	kmer_tree = remove_paths(kmer_tree, path_list[:best_path_index] + list_path[best_path_index + 1:], delete_entry_node, delete_sink_node)
+	return kmer_tree
 
 	
 		
