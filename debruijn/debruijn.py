@@ -180,8 +180,18 @@ def select_best_path(kmer_tree, path_list, length_list, weight_list, delete_entr
 	kmer_tree = remove_paths(kmer_tree, path_list[:best_path_index] + list_path[best_path_index + 1:], delete_entry_node, delete_sink_node)
 	return kmer_tree
 
-	
-		
+
+def solve_bubble(kmer_tree, ancestor_node, descendant_node):
+	bubble_path = []
+	bubble_len_path = []
+	bubble_weight = []
+	for path in nx.all_simple_paths(kmer_tree, ancestor_node, descendant_node):
+		bubble_path.append(path)
+		bubble_len_path.append(len(path))
+		bubble_weight.append(path_average_weight(kmer_tree, path))
+	kmer_tree = select_best_path(kmer_tree, bubble_path, bubble_len_path, bubble_weight)
+	return kmer_tree
+
 #==============================================================
 # Main program
 #==============================================================
