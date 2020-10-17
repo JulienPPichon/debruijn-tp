@@ -160,7 +160,7 @@ def remove_paths(kmer_tree, path_list, delete_entry_node, delete_sink_node):
 	return kmer_tree
     
     
-def select_best_path(kmer_tree, path_list, length_list, weight_list, delete_entry_node = False, delete_sink_node = False)
+def select_best_path(kmer_tree, path_list, length_list, weight_list, delete_entry_node = False, delete_sink_node = False):
 	max_weight = 0
 	best_path_len = 0
 	best_path_index = -1
@@ -170,12 +170,12 @@ def select_best_path(kmer_tree, path_list, length_list, weight_list, delete_entr
 			best_path_len = length_list[list_index]
 			best_path_index = list_index
 		elif weight == max_weight:
-			if best_path_len < length_list[list_index]  
+			if best_path_len < length_list[list_index]:
 				best_path_len = length_list[list_index]
 				best_path_index = list_index
 			elif best_path_len == length_list[list_index]:
 				best_path_index = rd.choice([best_path_index, list_index])
-	if best_path_index = -1:
+	if best_path_index == -1:
 		best_path_index = rd.randint(0, len(path_list))
 	kmer_tree = remove_paths(kmer_tree, path_list[:best_path_index] + list_path[best_path_index + 1:], delete_entry_node, delete_sink_node)
 	return kmer_tree
